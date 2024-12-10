@@ -59,12 +59,17 @@ namespace AKADEMINE_Arnas_Globys_PI23B
 
         private User GetUserByUsernameAndPassword(string username, string password, DBdetails db)
         {
-            string query = "SELECT UserID FROM user WHERE Username = @Username AND Password = @Password;";
+            
+            string query = @"
+            SELECT UserID 
+            FROM user 
+            WHERE Name = @Username AND Surname = @Password;";
+
             var parameters = new Dictionary<string, object>
-    {
-        { "@Username", username },
-        { "@Password", password }
-    };
+            {
+                { "@Username", username }, 
+                { "@Password", password }  
+            };
 
             using (var reader = db.ExecuteQuery(query, parameters))
             {
@@ -75,7 +80,7 @@ namespace AKADEMINE_Arnas_Globys_PI23B
                 }
             }
 
-            return null; // No user found
+            return null;
         }
     }
 }
