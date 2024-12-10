@@ -16,33 +16,6 @@ namespace AKADEMINE_Arnas_Globys_PI23B
             AdminId = adminId;
         }
 
-        
-        public static Admin GetAdminByUserId(int userId, DBdetails db)
-        {
-            string query = "SELECT * FROM admin WHERE UserID = @UserId;";
-            var parameters = new Dictionary<string, object> { { "@UserId", userId } };
-
-            using (var reader = db.ExecuteQuery(query, parameters))
-            {
-                if (reader.Read())
-                {
-                    return new Admin(
-                        reader.GetInt32("AdminID"),
-                        reader.GetInt32("UserID"),
-                        1, 
-                        reader.GetString("Name"),
-                        reader.GetString("Surname"),
-                        reader.GetString("Email"),
-                        reader.GetString("PhoneNumber"),
-                        reader.GetString("Username"),
-                        reader.GetString("Password"),
-                        DateTime.MinValue
-                    );
-                }
-            }
-
-            throw new Exception("Admin not found.");
-        }
     }
 }
 

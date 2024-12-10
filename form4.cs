@@ -42,12 +42,9 @@ namespace AKADEMINE_Arnas_Globys_PI23B
 
             try
             {
-                
                 StudyProgram program = StudyProgram.GetById(student.StudyProgramId, db);
 
-                
                 List<Subject> subjects = Subject.GetSubjectsByStudyProgramID(student.StudyProgramId, db);
-
                 
                 DisplayStudyProgramTable(program, subjects, ref currentY);
             }
