@@ -32,7 +32,6 @@ namespace AKADEMINE_Arnas_Globys_PI23B
             {
                 
                 DBdetails db = new DBdetails("localhost", "akademineis", "root", "");
-
                
                 User loggedInUser = GetUserByUsernameAndPassword(username, password, db);
 

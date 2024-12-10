@@ -10,6 +10,8 @@ namespace AKADEMINE_Arnas_Globys_PI23B
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DBdetails dbDetails = new DBdetails("localhost", "akademineis", "root", "");
+            dbDetails.TestConnection();
             Application.Run(new login());
            
         }
