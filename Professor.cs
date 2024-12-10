@@ -16,32 +16,6 @@ namespace AKADEMINE_Arnas_Globys_PI23B
             ProfessorId = professorId;
         }
 
-        public static Professor GetProfessorByUserId(int userId, DBdetails db)
-        {
-            string query = "SELECT * FROM professor WHERE UserID = @UserId;";
-            var parameters = new Dictionary<string, object> { { "@UserId", userId } };
-
-            using (var reader = db.ExecuteQuery(query, parameters))
-            {
-                if (reader.Read())
-                {
-                    return new Professor(
-                        reader.GetInt32("ProfessorID"),
-                        reader.GetInt32("UserID"),
-                        1,
-                        reader.GetString("Name"),
-                        reader.GetString("Surname"),
-                        reader.GetString("Email"),
-                        reader.GetString("PhoneNumber"),
-                        reader.GetString("Username"),
-                        reader.GetString("Password"),
-                        reader.GetDateTime("CreatedAt")
-                    );
-                }
-            }
-
-            throw new Exception("Professor not found.");
-        }
         public static List<Group> GetGroupsForProfessor(int professorId, DBdetails db)
         {
             string query = @"

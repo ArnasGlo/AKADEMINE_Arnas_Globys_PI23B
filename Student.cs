@@ -21,34 +21,6 @@ namespace AKADEMINE_Arnas_Globys_PI23B
             StudyProgramId = studyProgramId;
         }
 
-        public static Student GetStudentByUserId(int userId, DBdetails db)
-        {
-            string query = "SELECT * FROM student WHERE UserID = @UserId;";
-            var parameters = new Dictionary<string, object> { { "@UserId", userId } };
-
-            using (var reader = db.ExecuteQuery(query, parameters))
-            {
-                if (reader.Read())
-                {
-                    return new Student(
-                        reader.GetInt32("StudentID"),
-                        reader.GetInt32("UserID"),
-                        1, 
-                        reader.GetString("Name"),
-                        reader.GetString("Surname"),
-                        reader.GetString("Email"),
-                        reader.GetString("PhoneNumber"),
-                        reader.GetString("Username"),
-                        reader.GetString("Password"),
-                        reader.GetDateTime("CreatedAt"),
-                        reader.GetInt32("GroupID"),
-                        reader.GetInt32("StudyProgramID")
-                    );
-                }
-            }
-
-            throw new Exception("Student not found.");
-        }
     }
 
 }

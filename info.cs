@@ -14,11 +14,12 @@ namespace AKADEMINE_Arnas_Globys_PI23B
     public partial class info : Form
     {
         private User loggedInUser;
-
+        private DBdetails db;
         public info(User user)
         {
             InitializeComponent(); 
             loggedInUser = user;
+            db = new DBdetails("localhost", "akademineis", "root", "");
             DisplayUserInfo();
         }
 
@@ -33,24 +34,23 @@ namespace AKADEMINE_Arnas_Globys_PI23B
             }
             else if (loggedInUser is Student student)
             {
-                Group group = Group.GetGroupById(student.GroupId, new DBdetails("localhost", "akademineis", "root", ""));
+                Group group = Group.GetGroupById(student.GroupId, db);
                 lblGroups.Text = $"Group: {group.Title}, Created At: {group.CreatedAt}";
-
-                StudyProgram program = StudyProgram.GetById(student.StudyProgramId, new DBdetails("localhost", "akademineis", "root", ""));
-                lblStudyPrograms.Text = $"Study Program: {program.Studies}";
+                
+                StudyProgram program = StudyProgram.GetById(student.StudyProgramId, db);
+                lblStudyPrograms.Text = $"Study Program: {program.Studies}, Semester: {program.Semester}";
             }
             else if (loggedInUser is Professor professor)
             {
-                List<Group> groups = Professor.GetGroupsForProfessor(professor.ProfessorId, new DBdetails("localhost", "akademineis", "root", ""));
+                var groups = Professor.GetGroupsForProfessor(professor.ProfessorId, db);
                 lblGroups.Text = "Groups:\n" + string.Join("\n", groups.Select(g => $"{g.Title}, Created At: {g.CreatedAt}"));
 
-                List<StudyProgram> programs = Professor.GetStudyProgramsForProfessor(professor.ProfessorId, new DBdetails("localhost", "akademineis", "root", ""));
-                lblStudyPrograms.Text = "Study Programs:\n" + string.Join("\n", programs.Select(p => p.Studies));
-
-                    lblStudyPrograms.Location = new System.Drawing.Point(
-                    lblGroups.Location.X,
-                    lblGroups.Location.Y + lblGroups.Height + 20 
-                    );
+                var studyPrograms = Professor.GetStudyProgramsForProfessor(professor.ProfessorId, db);
+                lblStudyPrograms.Text = "Study Programs:\n" + string.Join("\n", studyPrograms.Select(sp => $"{sp.Studies}, Semester: {sp.Semester}"));
+                lblStudyPrograms.Location = new System.Drawing.Point(
+                   lblGroups.Location.X,
+                   lblGroups.Location.Y + lblGroups.Height + 20
+                   );
             }
         }
 
